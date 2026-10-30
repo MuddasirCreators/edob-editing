@@ -1,0 +1,908 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Edo Editing - Video Editing and Motion Graphics by Romaisa Rehman</title>
+  <meta name="description"
+    content="Premium video editing and motion graphics by Romaisa Rehman. Short-form reels, long-form content, high-converting video ads - fast turnarounds, professional results." />
+  <meta property="og:title" content="Edo Editing - Video Editing and Motion Graphics" />
+  <meta property="og:description"
+    content="Premium video editing and motion graphics. Fast turnarounds, professional results by Romaisa Rehman." />
+
+  <link rel="icon" href="img/favicon.png" type="image/png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Anton&family=Fragment+Mono&family=Host+Grotesk:wght@300..800&display=swap"
+    rel="stylesheet" />
+
+  <script type="module" crossorigin src="assets/main.js"></script>
+  <link rel="stylesheet" crossorigin href="assets/style.css" />
+</head>
+
+<body>
+  <!-- Preloader -->
+  <div id="loader" aria-hidden="true">
+    <picture>
+      <source type="image/webp" srcset="preloader-animation.webp" />
+      <img class="loader__video" src="preloader-animation.gif" alt="" aria-hidden="true" />
+    </picture>
+    <div class="loader__bottom">
+      <span class="loader__pct" id="loader-pct">0%</span>
+      <div class="loader__bar">
+        <div class="loader__bar-fill" id="loader-bar"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var l = document.getElementById("loader"),
+        b = document.getElementById("loader-bar"),
+        p = document.getElementById("loader-pct");
+      if (!l || !b) return;
+      document.documentElement.style.overflow = "hidden";
+      var t0 = performance.now(),
+        DUR = 3967,
+        finished = false,
+        secondLoop = false,
+        ready = { dom: false, load: false, fonts: false },
+        shown = 0;
+
+      document.addEventListener("DOMContentLoaded", function () {
+        ready.dom = true;
+        window.dispatchEvent(new Event("dunk:preload"));
+      });
+      window.addEventListener("load", function () {
+        ready.load = true;
+      });
+      if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(function () {
+          ready.fonts = true;
+        });
+      }
+
+      function allReady() {
+        return ready.dom && ready.load && ready.fonts;
+      }
+
+      function frame(now) {
+        if (finished) return;
+        var el = now - t0,
+          target = !secondLoop
+            ? Math.min(el / DUR, 1) * 70
+            : 70 + Math.min((el - DUR) / DUR, 1) * 30;
+        if (target > shown) shown = target;
+        b.style.width = shown + "%";
+        p.textContent = Math.round(shown) + "%";
+        if (!secondLoop && el >= DUR) {
+          if (allReady()) {
+            finish();
+            return;
+          }
+          secondLoop = true;
+        } else if (secondLoop && el >= DUR * 2) {
+          finish();
+          return;
+        }
+        requestAnimationFrame(frame);
+      }
+
+      requestAnimationFrame(frame);
+      setTimeout(finish, 10000);
+
+      function finish() {
+        if (finished) return;
+        finished = true;
+        b.style.transition = "width .25s ease";
+        b.style.width = "100%";
+        p.textContent = "100%";
+        setTimeout(function () {
+          l.classList.add("is-done");
+          document.documentElement.style.overflow = "";
+          window.__loaderDone = true;
+          window.dispatchEvent(new Event("dunk:loader-done"));
+          setTimeout(function () {
+            l.remove();
+          }, 600);
+        }, 300);
+      }
+    })();
+  </script>
+
+  <!-- Navigation Header -->
+  <header class="nav">
+    <a href="#" class="nav__logo" aria-label="Edo Editing">
+      <span class="nav__logo-anim" aria-hidden="true"></span>
+      <img src="img/edob-logo.png" alt="Edo Editing - Video Editing by Romaisa Rehman" id="logo-fallback" />
+    </a>
+    <nav class="nav__links">
+      <a href="#creative" class="nav__link nav__link--active">Portfolio</a>
+      <a href="#testing" class="nav__link">Services</a>
+    </nav>
+    <a href="#book" class="btn btn--primary btn--sm">
+      <span class="btn__label">Book a call</span>
+      <svg class="btn__arrow" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+        <path d="M3 7h8M7.5 3.5 11 7l-3.5 3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"
+          stroke-linejoin="round" />
+      </svg>
+    </a>
+  </header>
+
+  <main>
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+      <div class="hero__content">
+        <h1 class="hero__title">
+          Edits That Stop the Scroll<br />
+          and Scale Your Brand
+        </h1>
+        <p class="hero__subtitle">
+          Premium video editing and motion graphics, from one expert editor.<br />
+          Short-form reels, long-form content, and high-converting ads.<br />
+          You will never run out of great content to test.
+        </p>
+        <div class="hero__actions">
+          <a href="#book" class="btn btn--primary">
+            <span class="btn__label">Book a call</span>
+            <svg class="btn__arrow" width="16" height="16" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+              <path d="M3 7h8M7.5 3.5 11 7l-3.5 3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+          </a>
+          <a href="#reels" class="btn btn--ghost">See the work</a>
+        </div>
+        <div class="hero__joke" id="hero-joke">
+          <svg class="hero__joke-arrow" viewBox="12.5 2 17 39" fill="none" aria-hidden="true">
+            <path class="joke-arrow__curve" pathLength="1" d="M26 4C12 12 8 26 27 39" />
+            <path class="joke-arrow__head" pathLength="1" d="M16 37.8 27 39 21.9 29.3" />
+          </svg>
+          <p class="hero__joke-text" id="hero-joke-text" aria-label="yes those are all real edits"></p>
+        </div>
+      </div>
+      <div class="hero__reel" aria-hidden="true">
+        <div class="reel-col reel-col--up">
+          <div class="reel-track" id="track-up"></div>
+        </div>
+        <div class="reel-col reel-col--down">
+          <div class="reel-track" id="track-down"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section class="section stealth" id="creative">
+      <div class="stealth__grid">
+        <div class="stealth__text">
+          <p class="eyebrow">Video Portfolio</p>
+          <h2 class="section__title">
+            Every style.<br />
+            <span class="marker">Every format.</span>
+          </h2>
+          <div class="stealth__copy">
+            <p class="stealth__lead">
+              We craft edits in all formats that are performing right now - cinematic long-form,
+              viral short-form reels, high-converting video ads, kinetic typography - delivered
+              in days, not weeks.
+            </p>
+            <p>
+              With 4+ years of experience and 614+ successful projects, every cut is intentional.
+              Every frame serves a purpose - stopping the scroll or driving a conversion.
+            </p>
+            <p>
+              One expert editor, full service. Faster turnarounds, tighter communication, and
+              <span class="hl">content that actually performs</span>.
+            </p>
+          </div>
+        </div>
+        <div class="stealth__visual">
+          <div class="stealth-stage">
+            <span class="stealth-stage__ghost stealth-stage__ghost--wide"></span>
+            <span class="stealth-stage__ghost stealth-stage__ghost--card"></span>
+            <img src="img/hero-profile.png" alt="Romaisa Rehman - Video Editor and Motion Graphics Artist"
+              class="stealth__profile-img" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Reels Showcase Grid -->
+    <section class="section reels-section" id="reels">
+      <div class="reels-stage">
+        <div class="reels-grid" id="reels-grid"></div>
+        <div class="reels-stage__fade"></div>
+        <div class="reels-stage__cta">
+          <a href="https://www.youtube.com/@edobediting" target="_blank" rel="noopener"
+            class="btn btn--primary btn--lg">
+            <span class="btn__label">Watch all videos</span>
+            <svg class="btn__arrow" width="18" height="18" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+              <path d="M3 7h8M7.5 3.5 11 7l-3.5 3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Results & Stats Section -->
+    <div class="grain-band">
+      <div class="grain-band__bg" id="band-bg" aria-hidden="true"></div>
+      <section class="cti" id="testing">
+        <div class="cti__inner">
+          <div class="cti__text">
+            <p class="eyebrow">Results &amp; Delivery</p>
+            <h2 class="section__title">
+              Fast Turnarounds<br />
+              and Real Results
+            </h2>
+            <p class="cti__lead">
+              Quality does not mean slow. We deliver 5-20 edited videos per month with a 3-5 day
+              turnaround per batch, iterate on what performs, and feed the data back into every next cut.
+            </p>
+          </div>
+          <div class="cti__visual" aria-hidden="true">
+            <div class="chart-card">
+              <div class="chart-card__head">
+                <span class="chart-card__label">Views Generated</span>
+                <div class="chart-card__value">
+                  <span class="chart-card__amount">4,812,340</span>
+                  <span class="chart-card__delta">&#9650; 247%</span>
+                </div>
+              </div>
+              <svg class="chart-card__plot" viewBox="0 0 620 288" preserveAspectRatio="none" role="img">
+                <g class="chart-grid">
+                  <line x1="46" y1="16" x2="610" y2="16" />
+                  <line x1="46" y1="94" x2="610" y2="94" />
+                  <line x1="46" y1="172" x2="610" y2="172" />
+                  <line x1="46" y1="250" x2="610" y2="250" />
+                </g>
+                <g class="chart-ylabel">
+                  <text x="38" y="20">4M</text>
+                  <text x="38" y="98">3M</text>
+                  <text x="38" y="176">1M</text>
+                  <text x="38" y="254">0</text>
+                </g>
+                <polyline class="chart-line chart-line--compare"
+                  points="46,220 89,210 132,190 175,170 218,160 261,150 304,140 347,130 390,120 433,110 476,100 519,90 562,80 605,70" />
+                <polyline class="chart-line chart-line--main"
+                  points="46,240 89,230 132,200 175,160 218,120 261,96 304,72 347,60 390,48 433,36 476,28 519,20 562,18 605,16" />
+                <g class="chart-xlabel">
+                  <text x="46" y="276">Jan</text>
+                  <text x="159" y="276">Mar</text>
+                  <text x="272" y="276">May</text>
+                  <text x="385" y="276">Jul</text>
+                  <text x="498" y="276">Sep</text>
+                  <text x="590" y="276">Nov</text>
+                </g>
+              </svg>
+              <div class="chart-card__legend">
+                <span class="chart-legend">
+                  <span class="chart-legend__swatch chart-legend__swatch--main"></span>
+                  With Edo Editing (2024)
+                </span>
+                <span class="chart-legend">
+                  <span class="chart-legend__swatch chart-legend__swatch--compare"></span>
+                  Before (2023)
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Method Section -->
+      <section class="section method" id="method">
+        <div class="method__grid">
+          <div class="method__head">
+            <p class="eyebrow">The Method</p>
+            <h2 class="section__title">
+              The Edo Editing<br />
+              <span class="marker">Process</span>
+            </h2>
+            <p class="method__lead">
+              Six steps, from first brief to delivered winner. How we turn your footage, your
+              audience, and your goals into content that actually performs.
+            </p>
+            <a href="#book" class="btn btn--primary method__cta">
+              <span class="btn__label">Book a call</span>
+              <svg class="btn__arrow" width="16" height="16" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                <path d="M3 7h8M7.5 3.5 11 7l-3.5 3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+            </a>
+          </div>
+          <ol class="timeline" id="timeline">
+            <div class="timeline__track" aria-hidden="true"></div>
+            <div class="timeline__progress" id="timeline-progress" aria-hidden="true"></div>
+
+            <li class="tl-step">
+              <span class="tl-step__node">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <circle cx="11" cy="11" r="7" />
+                  <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                </svg>
+              </span>
+              <div class="tl-step__body">
+                <h3 class="tl-step__title">Brand &amp; Audience Research</h3>
+                <p class="tl-step__desc">
+                  We study your brand, your target audience, and your top-performing content.
+                  If you already have footage or past wins, we fold those in from day one so nothing starts from
+                  scratch.
+                </p>
+              </div>
+            </li>
+
+            <li class="tl-step">
+              <span class="tl-step__node">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="9" />
+                  <circle cx="12" cy="12" r="4.5" />
+                  <circle cx="12" cy="12" r="1" fill="currentColor" stroke="none" />
+                </svg>
+              </span>
+              <div class="tl-step__body">
+                <h3 class="tl-step__title">Creative Strategy</h3>
+                <p class="tl-step__desc">
+                  We plan the edit structure built to perform, not just look good. Data and
+                  audience psychology decide the hook, the pacing, and the reason someone keeps watching.
+                </p>
+              </div>
+            </li>
+
+            <li class="tl-step">
+              <span class="tl-step__node">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <rect x="3" y="6" width="13" height="12" rx="2" />
+                  <path d="M16 10l5-2.5v9L16 14" />
+                </svg>
+              </span>
+              <div class="tl-step__body">
+                <h3 class="tl-step__title">Raw Footage Review</h3>
+                <p class="tl-step__desc">
+                  Whether UGC, long-form, ad creative, or motion graphics - we review all footage
+                  and assets and select the best material to work with.
+                </p>
+              </div>
+            </li>
+
+            <li class="tl-step">
+              <span class="tl-step__node">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <line x1="4" y1="8" x2="20" y2="8" />
+                  <circle cx="9" cy="8" r="2.2" fill="var(--bg-base)" />
+                  <line x1="4" y1="16" x2="20" y2="16" />
+                  <circle cx="15" cy="16" r="2.2" fill="var(--bg-base)" />
+                </svg>
+              </span>
+              <div class="tl-step__body">
+                <h3 class="tl-step__title">Precision Editing</h3>
+                <p class="tl-step__desc">
+                  Every cut is tuned to the persona it targets - pacing, captions, sound design,
+                  and motion graphics - so the edit converts, not just entertains.
+                </p>
+              </div>
+            </li>
+
+            <li class="tl-step">
+              <span class="tl-step__node">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <line x1="6" y1="20" x2="6" y2="12" />
+                  <line x1="12" y1="20" x2="12" y2="5" />
+                  <line x1="18" y1="20" x2="18" y2="14" />
+                </svg>
+              </span>
+              <div class="tl-step__body">
+                <h3 class="tl-step__title">Analysis &amp; Iteration</h3>
+                <p class="tl-step__desc">
+                  Every video is judged against your benchmarks. What worked feeds the next brief,
+                  what did not gets cut, and the next batch ships within days.
+                </p>
+              </div>
+            </li>
+
+            <li class="tl-step">
+              <span class="tl-step__node">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <polyline points="3 17 9 11 13 15 21 7" />
+                  <polyline points="15 7 21 7 21 13" />
+                </svg>
+              </span>
+              <div class="tl-step__body">
+                <h3 class="tl-step__title">Scale &amp; Deliver</h3>
+                <p class="tl-step__desc">
+                  We find the formats that win and scale output while keeping quality consistent,
+                  so your content engine never runs dry.
+                </p>
+              </div>
+            </li>
+          </ol>
+        </div>
+        <p class="dunk-line" id="dunk-line" aria-label="Ready to level up your content?"></p>
+      </section>
+    </div>
+
+    <!-- Testimonials Section -->
+    <section class="section testimonials" id="testimonials">
+      <div class="testimonials__head">
+        <p class="eyebrow eyebrow--center">Testimonials</p>
+        <h2 class="section__title">What do they say?</h2>
+        <p class="testimonials__sub">Hear from our satisfied clients.</p>
+      </div>
+      <div class="testimonials__grid">
+        <article class="tcard">
+          <div class="tcard__top">
+            <span class="tcard__brand">Fler</span>
+            <span class="tcard__cat">Beauty &amp; Personal Care</span>
+          </div>
+          <p class="tcard__quote">
+            &ldquo;Working with Romaisa has been amazing. She delivers edits that actually work -
+            simple process, fast delivery, and our engagement has gone through the roof. Her videos
+            make a real difference and the quality is absolutely worth it. I would definitely
+            recommend her.&rdquo;
+          </p>
+          <div class="tcard__author">
+            <span class="tcard__avatar">ML</span>
+            <div class="tcard__meta">
+              <span class="tcard__name">Matteo Landi</span>
+              <span class="tcard__role">Media Buyer, Fler</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="tcard">
+          <div class="tcard__top">
+            <span class="tcard__brand">Bau</span>
+            <span class="tcard__cat">Pet</span>
+          </div>
+          <p class="tcard__quote">
+            &ldquo;We worked with Romaisa for our campaigns and we would highly recommend her. She
+            got everything right, from creative strategy to editing angles. She understood our brand
+            messaging and helped us grow our reach 10x in just 3 months - definitely the best video
+            editor we have worked with.&rdquo;
+          </p>
+          <div class="tcard__author">
+            <span class="tcard__avatar">AB</span>
+            <div class="tcard__meta">
+              <span class="tcard__name">Andrea Bianchi</span>
+              <span class="tcard__role">Founder &amp; CEO of Bau Cosmesi</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="tcard">
+          <div class="tcard__top">
+            <span class="tcard__brand">Valkental</span>
+            <span class="tcard__cat">Sporting Goods</span>
+          </div>
+          <p class="tcard__quote">
+            &ldquo;Romaisa has enabled me to dedicate more time to our product and site optimization.
+            For brand owners who struggle with content creation, working with her is a must. She has
+            saved me so much time while scaling my brand content to another level.&rdquo;
+          </p>
+          <div class="tcard__author">
+            <span class="tcard__avatar">AD</span>
+            <div class="tcard__meta">
+              <span class="tcard__name">Antonio Detering</span>
+              <span class="tcard__role">Founder of Valkental</span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Booking / CTA Section -->
+    <section class="section booking" id="book">
+      <div class="booking__grid">
+        <div class="booking__text">
+          <p class="eyebrow">Let's talk</p>
+          <h2 class="section__title">
+            Ready to level up<br />
+            your content?
+          </h2>
+          <p class="booking__lead">
+            In a 15-minute call, we will look at your current content, spot the opportunities, and
+            show you exactly what kind of editing would make an impact. No pitch, no fluff - just a
+            clear plan.
+          </p>
+          <a href="mailto:romaisa@edobediting.com" class="btn btn--primary booking__cta">
+            <span class="btn__label">Book a call</span>
+            <svg class="btn__arrow" width="16" height="16" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+              <path d="M3 7h8M7.5 3.5 11 7l-3.5 3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+          </a>
+        </div>
+        <div class="booking__visual">
+          <div class="chart-card booking__stats-card">
+            <div class="booking__stats-row">
+              <div class="booking__stat-item">
+                <div class="booking__stat-num">4+</div>
+                <div class="booking__stat-lbl">Years of<br />Experience</div>
+              </div>
+              <div class="booking__stat-item">
+                <div class="booking__stat-num">614+</div>
+                <div class="booking__stat-lbl">Successful<br />Projects</div>
+              </div>
+            </div>
+            <div class="booking__stats-tools">
+              <div class="booking__stats-tools-text">
+                Premiere Pro &middot; After Effects &middot; Photoshop
+              </div>
+            </div>
+            <div class="booking__stats-geo">
+              <div class="booking__stats-geo-text">
+                Working with clients in the <strong>US, Europe, and globally</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQs Section -->
+    <section class="section faqs" id="faqs">
+      <div class="faqs__head">
+        <p class="eyebrow eyebrow--center">FAQs</p>
+        <h2 class="section__title">Frequently asked questions</h2>
+        <p class="testimonials__sub">Quick answers about our video editing services and process.</p>
+      </div>
+      <div class="faqs__list">
+        <div class="faq">
+          <button class="faq__q" aria-expanded="false">
+            <span class="faq__q-text">Why should we invest in professional video editing?</span>
+            <span class="faq__icon" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round">
+                <line x1="8" y1="2" x2="8" y2="14" />
+                <line x1="2" y1="8" x2="14" y2="8" />
+              </svg>
+            </span>
+          </button>
+          <div class="faq__a-wrap">
+            <div class="faq__a">
+              <p>
+                Editing is the biggest lever in content performance today. The hook, pacing, and
+                structure of your video decides whether someone watches 3 seconds or 3 minutes.
+                Professional editing keeps your retention rates high and CPAs down.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq">
+          <button class="faq__q" aria-expanded="false">
+            <span class="faq__q-text">How does the revision process work?</span>
+            <span class="faq__icon" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round">
+                <line x1="8" y1="2" x2="8" y2="14" />
+                <line x1="2" y1="8" x2="14" y2="8" />
+              </svg>
+            </span>
+          </button>
+          <div class="faq__a-wrap">
+            <div class="faq__a">
+              <p>
+                Revisions are built into every delivery. You review and give feedback at each
+                milestone, and we iterate fast so nothing ships without your sign-off.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq">
+          <button class="faq__q" aria-expanded="false">
+            <span class="faq__q-text">What metrics do you use to assess video performance?</span>
+            <span class="faq__icon" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round">
+                <line x1="8" y1="2" x2="8" y2="14" />
+                <line x1="2" y1="8" x2="14" y2="8" />
+              </svg>
+            </span>
+          </button>
+          <div class="faq__a-wrap">
+            <div class="faq__a">
+              <p>
+                We track what matters for growth: watch time, hook rate, retention curve,
+                click-through rate, and engagement rate by video type. Each video is judged against
+                your custom benchmarks, not vanity numbers.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq">
+          <button class="faq__q" aria-expanded="false">
+            <span class="faq__q-text">Can we send our own footage to edit?</span>
+            <span class="faq__icon" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round">
+                <line x1="8" y1="2" x2="8" y2="14" />
+                <line x1="2" y1="8" x2="14" y2="8" />
+              </svg>
+            </span>
+          </button>
+          <div class="faq__a-wrap">
+            <div class="faq__a">
+              <p>
+                Absolutely. If you have raw footage, UGC clips, or recorded content, we will edit it
+                alongside our own research-backed creative direction for the best result.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq">
+          <button class="faq__q" aria-expanded="false">
+            <span class="faq__q-text">Do you work with influencer and UGC content?</span>
+            <span class="faq__icon" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round">
+                <line x1="8" y1="2" x2="8" y2="14" />
+                <line x1="2" y1="8" x2="14" y2="8" />
+              </svg>
+            </span>
+          </button>
+          <div class="faq__a-wrap">
+            <div class="faq__a">
+              <p>
+                Yes. We edit UGC and influencer content for paid-social pipelines, optimizing raw
+                footage into high-converting ad creatives that retain the authentic feel audiences trust.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq">
+          <button class="faq__q" aria-expanded="false">
+            <span class="faq__q-text">What types of videos do you produce?</span>
+            <span class="faq__icon" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round">
+                <line x1="8" y1="2" x2="8" y2="14" />
+                <line x1="2" y1="8" x2="14" y2="8" />
+              </svg>
+            </span>
+          </button>
+          <div class="faq__a-wrap">
+            <div class="faq__a">
+              <p>
+                Short-form reels (Instagram, TikTok, YouTube Shorts), long-form YouTube content, video
+                ads, kinetic typography animations, and motion graphics. Every format handled in-house
+                with Premiere Pro, After Effects, and Photoshop.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq">
+          <button class="faq__q" aria-expanded="false">
+            <span class="faq__q-text">How many videos do you deliver per month?</span>
+            <span class="faq__icon" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round">
+                <line x1="8" y1="2" x2="8" y2="14" />
+                <line x1="2" y1="8" x2="14" y2="8" />
+              </svg>
+            </span>
+          </button>
+          <div class="faq__a-wrap">
+            <div class="faq__a">
+              <p>
+                Depending on your plan, between 5 and 20+ videos per month, with a 3-5 day turnaround
+                on each batch. Volume does not compromise quality.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq">
+          <button class="faq__q" aria-expanded="false">
+            <span class="faq__q-text">What does it cost to work with Edo Editing?</span>
+            <span class="faq__icon" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round">
+                <line x1="8" y1="2" x2="8" y2="14" />
+                <line x1="2" y1="8" x2="14" y2="8" />
+              </svg>
+            </span>
+          </button>
+          <div class="faq__a-wrap">
+            <div class="faq__a">
+              <p>
+                Plans vary based on volume, format mix, and turnaround speed. Book a call and we
+                will build a package that fits your content needs and budget.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq">
+          <button class="faq__q" aria-expanded="false">
+            <span class="faq__q-text">Do you work with international clients?</span>
+            <span class="faq__icon" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round">
+                <line x1="8" y1="2" x2="8" y2="14" />
+                <line x1="2" y1="8" x2="14" y2="8" />
+              </svg>
+            </span>
+          </button>
+          <div class="faq__a-wrap">
+            <div class="faq__a">
+              <p>
+                Yes. We work with clients in the US, Europe, and globally. Our research process is
+                always on top of the formats performing in your specific market.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq">
+          <button class="faq__q" aria-expanded="false">
+            <span class="faq__q-text">What makes Edo Editing different from other video editors?</span>
+            <span class="faq__icon" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round">
+                <line x1="8" y1="2" x2="8" y2="14" />
+                <line x1="2" y1="8" x2="14" y2="8" />
+              </svg>
+            </span>
+          </button>
+          <div class="faq__a-wrap">
+            <div class="faq__a">
+              <p>
+                Most editors just cut footage. We study your audience, craft a creative strategy, edit
+                with intent, and analyse performance data to improve every batch. With 4+ years and
+                614+ projects, the results speak for themselves.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer" id="footer">
+    <div class="footer__glow" aria-hidden="true"></div>
+    <div class="footer__inner">
+      <div class="footer__cta">
+        <h2 class="footer__cta-title">Want to work together?</h2>
+      </div>
+      <div class="footer__top">
+        <div class="footer__brand">
+          <img class="footer__logo" src="img/edob-logo.png" alt="Edo Editing" />
+          <p class="footer__meta">
+            <span class="footer__globe" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <circle cx="12" cy="12" r="9" />
+                <path d="M3 12h18M12 3c2.5 2.5 3.8 5.7 3.8 9s-1.3 6.5-3.8 9c-2.5-2.5-3.8-5.7-3.8-9s1.3-6.5 3.8-9Z" />
+              </svg>
+            </span>
+            Working with clients in the US, Europe, and globally
+          </p>
+        </div>
+        <nav class="footer__nav" aria-label="Footer">
+          <ul class="footer__col">
+            <li><a href="#">Home</a></li>
+            <li><a href="#creative">Portfolio</a></li>
+            <li><a href="#testing">Services</a></li>
+          </ul>
+          <ul class="footer__col">
+            <li>
+              <a href="https://www.instagram.com/edobediting" target="_blank" rel="noopener" class="footer__ext">
+                Instagram <span aria-hidden="true">&#x2197;</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://www.tiktok.com/@edobediting" target="_blank" rel="noopener" class="footer__ext">
+                TikTok <span aria-hidden="true">&#x2197;</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://www.youtube.com/@edobediting" target="_blank" rel="noopener" class="footer__ext">
+                YouTube <span aria-hidden="true">&#x2197;</span>
+              </a>
+            </li>
+            <li>
+              <a href="mailto:romaisa@edobediting.com" class="footer__ext">
+                Email <span aria-hidden="true">&#x2197;</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+      <div class="footer__bottom">
+        <span>&copy; 2026 Edo Editing by Romaisa Rehman. All rights reserved.</span>
+        <div class="footer__legal">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+          <a href="#">Cookie Policy</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      var DELAY = 6000,
+        DRAW = 600,
+        TEXT = "(yes, those are all real edits)",
+        box = document.getElementById("hero-joke"),
+        out = document.getElementById("hero-joke-text");
+      if (!box || !out) return;
+      var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      function type() {
+        var caret = document.createElement("span");
+        caret.className = "dunk-caret";
+        out.appendChild(caret);
+        var i = 0;
+        (function step() {
+          if (i >= TEXT.length) {
+            setTimeout(function () {
+              caret.remove();
+            }, 900);
+            return;
+          }
+          var ch = document.createElement("span");
+          ch.className = "dunk-char";
+          ch.textContent = TEXT[i];
+          out.insertBefore(ch, caret);
+          i += 1;
+          setTimeout(step, TEXT[i - 1] === " " ? 20 : 30 + Math.random() * 25);
+        })();
+      }
+
+      function play() {
+        box.classList.add("is-on");
+        if (reduce) {
+          out.textContent = TEXT;
+          return;
+        }
+        setTimeout(type, DRAW);
+      }
+
+      function playWhenVisible() {
+        var hero = document.getElementById("hero");
+        if (!hero || !("IntersectionObserver" in window)) {
+          play();
+          return;
+        }
+        var io = new IntersectionObserver(
+          function (es) {
+            if (
+              es.some(function (e) {
+                return e.isIntersecting;
+              })
+            ) {
+              io.disconnect();
+              play();
+            }
+          },
+          { threshold: 0.25 }
+        );
+        io.observe(hero);
+      }
+
+      function start() {
+        setTimeout(playWhenVisible, DELAY);
+      }
+
+      if (window.__loaderDone || !document.getElementById("loader")) start();
+      else window.addEventListener("dunk:loader-done", start, { once: true });
+    })();
+  </script>
+</body>
+
+</html>

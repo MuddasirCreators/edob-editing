@@ -1,0 +1,1275 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dunk Ads â AI UGC &amp; Ad Creative Agency for DTC Brands</title>
+  <meta name="description" content="AI-generated ad formats and real UGC creators, end to end. 15â20 ad variations a month for DTC brands scaling on Meta â concept to media buying." />
+  <meta property="og:title" content="Dunk Ads â AI UGC &amp; Ad Creative Agency" />
+  <meta property="og:description" content="AI-generated ad formats and real UGC creators, end to end. 15â20 ad variations a month for DTC brands scaling on Meta â concept to media buying." />
+
+  <link rel="icon" href="dunkads-favicon.svg" type="image/svg+xml" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://player.mediadelivery.net" />
+  <link rel="preconnect" href="https://assets.calendly.com" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Anton&family=Fragment+Mono&family=Host+Grotesk:wght@300..800&display=swap"
+    rel="stylesheet"
+  />
+
+  <script type="module" crossorigin src="assets/main.js"></script>
+  <link rel="stylesheet" crossorigin href="assets/style.css">
+  <link rel="stylesheet" href="https://assets.calendly.com/assets/external/widget.css" />
+  <style>
+    .calendly-embed {
+      min-height: clamp(420px, 55vh, 560px);
+      border-radius: 22px;
+      overflow: hidden;
+      border: 1.5px solid rgba(255, 255, 255, .12);
+      background: linear-gradient(180deg, #ffffff0a, #ffffff04);
+    }
+    .calendly-embed .calendly-inline-widget {
+      min-width: 0;
+      width: 100%;
+      height: clamp(680px, 78vh, 780px);
+    }
+
+    /* ===== Loader de entrada =====
+       Overlay a pantalla completa que tapa la pÃ¡gina mientras se precarga el
+       contenido (videos del hero + grilla de reels, fuentes, etc). El CSS va
+       inline en el head para que pinte de inmediato, antes de que llegue el
+       CSS del bundle. */
+    #loader {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: #0a0a0a; /* mismo fondo que la web: sin flash al salir */
+      opacity: 1;
+      transition: opacity .5s ease;
+    }
+    #loader.is-done {
+      opacity: 0;
+      pointer-events: none;
+    }
+    .loader__video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover; /* pantalla completa: recorta en vez de dejar bandas */
+      pointer-events: none;
+    }
+    .loader__bottom {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 2;
+    }
+    .loader__pct {
+      display: block;
+      text-align: right;
+      padding: 0 14px 6px;
+      font-family: "Fragment Mono", ui-monospace, monospace;
+      font-size: 13px;
+      letter-spacing: .04em;
+      color: #ff601f; /* naranja DUNKADS (--orange-500) */
+    }
+    .loader__bar {
+      width: 100%;
+      height: 10px;
+      background: rgba(255, 255, 255, .08);
+    }
+    .loader__bar-fill {
+      height: 100%;
+      width: 0%;
+      background: #ff601f;
+      box-shadow: 0 0 14px rgba(255, 96, 31, .55); /* glow naranja */
+    }
+
+    /* ===== Chiste del hero ===== */
+    .hero__joke {
+      display: flex;
+      align-items: flex-end;
+      gap: .15rem;
+      margin: .9rem 0 0 1.6rem; /* sangrÃ­a: la flecha nace bajo el CTA */
+      opacity: 0;
+      transition: opacity .35s ease;
+      pointer-events: none; /* decorativo: no debe tapar los botones */
+    }
+    .hero__joke.is-on { opacity: 1; }
+
+    .hero__joke-arrow {
+      flex: none;
+      width: 17px;
+      height: 39px;
+      /* Sube la flecha respecto del texto (que va pegado abajo): asÃ­ la punta
+         queda arriba-izquierda del primer carÃ¡cter y le apunta, en lugar de
+         quedar a la misma altura. */
+      margin-bottom: 10px;
+      /* Azul de marca. Un tono mÃ¡s claro que --blue-500 para que se lea
+         sobre el fondo casi negro del hero. */
+      stroke: var(--blue-400, #0068fa);
+      stroke-width: 2.2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      filter: drop-shadow(0 0 8px rgba(0, 104, 250, .45));
+    }
+    /* pathLength="1" normaliza el largo del trazo: el dibujado se controla
+       igual en la curva y en la punta, sin medir la geometrÃ­a real. */
+    .hero__joke-arrow path { stroke-dasharray: 1; stroke-dashoffset: 1; }
+    .hero__joke.is-on .joke-arrow__curve { animation: joke-draw .5s ease forwards; }
+    .hero__joke.is-on .joke-arrow__head { animation: joke-draw .25s ease .38s forwards; }
+    @keyframes joke-draw { to { stroke-dashoffset: 0; } }
+
+    .hero__joke-text {
+      margin: 0;
+      font-family: var(--font-mono, "Fragment Mono", ui-monospace, monospace);
+      font-size: clamp(.78rem, 1.1vw, .92rem);
+      line-height: 1.3;
+      letter-spacing: .01em;
+      color: var(--white, #fff);
+      transform: rotate(-2deg); /* apenas torcido: se lee como anotaciÃ³n */
+      transform-origin: left bottom;
+      white-space: nowrap;
+    }
+    /* El cursor global es naranja (--accent); acÃ¡ va en blanco, como el texto. */
+    .hero__joke .dunk-caret {
+      width: 3px;
+      background: var(--white, #fff);
+      box-shadow: 0 0 10px rgba(255, 255, 255, .45);
+    }
+
+    @media (max-width: 960px) {
+      /* En mÃ³vil el hero estÃ¡ centrado, asÃ­ que el chiste tambiÃ©n. */
+      .hero__joke { justify-content: center; margin-left: 0; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .hero__joke-arrow path { stroke-dashoffset: 0; }
+    }
+  </style>
+</head>
+<body>
+  <!-- ===== Loader de entrada =====
+       Va primero en el body para que pinte antes que nada. Mientras estÃ¡
+       visible, atrÃ¡s se van cargando los videos (hero + grilla de reels),
+       fuentes y el resto del contenido, asÃ­ la pÃ¡gina no carga todo de golpe
+       cuando el usuario ya estÃ¡ navegando. -->
+  <div id="loader" aria-hidden="true">
+    <!-- La animaciÃ³n va como IMAGEN animada, no como <video>: para iOS es una
+         imagen y las imÃ¡genes no tienen polÃ­tica de autoplay â animan siempre,
+         incluso con Modo de Bajo Consumo o Ahorro de Datos, sin botÃ³n de play
+         ni gestos. WebP animado (240 KB) para navegadores modernos, GIF (315 KB)
+         de respaldo para los muy viejos. Loopea sola; el script corta por tiempo. -->
+    <picture>
+      <source type="image/webp" srcset="preloader-animation.webp" />
+      <img class="loader__video" src="preloader-animation.gif" alt="" aria-hidden="true" />
+    </picture>
+    <div class="loader__bottom">
+      <span class="loader__pct" id="loader-pct">0%</span>
+      <div class="loader__bar"><div class="loader__bar-fill" id="loader-bar"></div></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      var loader = document.getElementById('loader');
+      var bar = document.getElementById('loader-bar');
+      var pct = document.getElementById('loader-pct');
+      if (!loader || !bar) return;
+
+      // Bloquear el scroll mientras el loader tapa la pÃ¡gina.
+      document.documentElement.style.overflow = 'hidden';
+
+      var t0 = performance.now();
+      var DUR = 3967;        // duraciÃ³n real de una pasada de la animaciÃ³n (ms)
+      var finished = false;
+      var secondLoop = false;
+
+      // --- QuÃ© consideramos "cargado" ---
+      // DOM listo + evento load (imÃ¡genes, CSS, scripts) + fuentes web.
+      // Los iframes de video de Bunny cargan en cola durante todo el loader;
+      // no los esperamos a todos porque son muchos, pero el tiempo del loader
+      // les da ventaja para llegar cargados.
+      var ready = { dom: false, load: false, fonts: false };
+      document.addEventListener('DOMContentLoaded', function () {
+        ready.dom = true;
+        // Avisar al bundle que cargue YA la grilla de reels (sin esperar el
+        // scroll): aprovechamos el tiempo del loader para precargarla.
+        window.dispatchEvent(new Event('dunk:preload'));
+      });
+      window.addEventListener('load', function () { ready.load = true; });
+      if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(function () { ready.fonts = true; });
+      }
+      function allReady() { return ready.dom && ready.load && ready.fonts; }
+
+      // --- Reloj del loader ---
+      // La animaciÃ³n loopea sola (es una imagen animada); este bucle decide
+      // cuÃ¡ndo cerrar: tras una pasada si ya cargÃ³ todo, tras dos como mÃ¡ximo.
+      //
+      // Barra: pasada 1 â 0-70%, pasada 2 â 70-100%. Si cierra en la primera,
+      // el salto a 100% lo anima finish().
+      var shown = 0; // monÃ³tona: nunca retrocede
+      function frame(now) {
+        if (finished) return;
+        var el = now - t0;
+
+        var target = !secondLoop
+          ? Math.min(el / DUR, 1) * 70
+          : 70 + Math.min((el - DUR) / DUR, 1) * 30;
+        if (target > shown) shown = target;
+        bar.style.width = shown + '%';
+        pct.textContent = Math.round(shown) + '%';
+
+        if (!secondLoop && el >= DUR) {
+          // Fin de la 1.Âª pasada: si ya cargÃ³ todo cerramos; si no, una mÃ¡s.
+          if (allReady()) { finish(); return; }
+          secondLoop = true;
+        } else if (secondLoop && el >= DUR * 2) {
+          finish(); return;
+        }
+        requestAnimationFrame(frame);
+      }
+      requestAnimationFrame(frame);
+
+      // Red de seguridad: requestAnimationFrame se congela si la pestaÃ±a pasa a
+      // segundo plano, asÃ­ que el tope duro va con setTimeout, que sigue corriendo.
+      setTimeout(finish, 10000);
+
+      function finish() {
+        if (finished) return;
+        finished = true;
+        // Completar la barra y reciÃ©n despuÃ©s desvanecer el overlay.
+        bar.style.transition = 'width .25s ease';
+        bar.style.width = '100%';
+        pct.textContent = '100%';
+        setTimeout(function () {
+          loader.classList.add('is-done');
+          document.documentElement.style.overflow = '';
+          // Avisar que la web ya se ve: la animaciÃ³n del logo espera esto
+          // para no correr tapada por el loader.
+          window.__loaderDone = true;
+          window.dispatchEvent(new Event('dunk:loader-done'));
+          // Sacar el overlay del DOM cuando termina el fade (transition .5s).
+          setTimeout(function () { loader.remove(); }, 600);
+        }, 300);
+      }
+    })();
+  </script>
+
+  <header class="nav">
+    <a href="#" class="nav__logo" aria-label="DUNKADS">
+      <span class="nav__logo-anim" id="logo-anim" aria-hidden="true"></span>
+      <img src="/dunkads-logo.svg" alt="Dunk Ads â AI UGC and ad creative agency" id="logo-fallback" />
+    </a>
+    <nav class="nav__links">
+      <a href="#creative" class="nav__link nav__link--active">Ad Creatives</a>
+      <a href="#testing" class="nav__link">Paid Advertising</a>
+    </nav>
+    <a href="#book" class="btn btn--primary btn--sm">
+      <span class="btn__label">Dunk a call</span>
+      <svg class="btn__arrow" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+        <path d="M3 7h8M7.5 3.5 11 7l-3.5 3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </a>
+  </header>
+
+  <main>
+    <section class="hero" id="hero">
+      <div class="hero__content">
+        <h1 class="hero__title">
+          Ads That Stop the Scroll<br />
+          and Scale Your Brand
+        </h1>
+        <p class="hero__subtitle">
+          AI-generated formats and real UGC creators, from one end-to-end team.<br />
+          From concept and casting to editing and media buying.<br />
+          You'll never run out of creative to test.
+        </p>
+        <div class="hero__actions">
+          <a href="#book" class="btn btn--primary">
+            <span class="btn__label">Dunk a call</span>
+            <svg class="btn__arrow" width="16" height="16" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+              <path d="M3 7h8M7.5 3.5 11 7l-3.5 3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+          <a href="#reels" class="btn btn--ghost">See the work</a>
+        </div>
+
+        <!-- Chiste del hero: flechita que sale del CTA hacia abajo + texto
+             tipeado. Aparece con retraso, cuando la mirada ya recorriÃ³ el
+             hero y los videos (ver script al final del body). -->
+        <div class="hero__joke" id="hero-joke">
+          <!-- viewBox recortado al trazo (sin aire a la derecha ni abajo) para
+               que la punta quede pegada al texto y no suelta a la par. -->
+          <svg class="hero__joke-arrow" viewBox="12.5 2 17 39" fill="none" aria-hidden="true">
+            <path class="joke-arrow__curve" pathLength="1" d="M26 4C12 12 8 26 27 39" />
+            <path class="joke-arrow__head" pathLength="1" d="M16 37.8 27 39 21.9 29.3" />
+          </svg>
+          <p class="hero__joke-text" id="hero-joke-text" aria-label="(we tried to be cool here)"></p>
+        </div>
+      </div>
+
+      <div class="hero__reel" aria-hidden="true">
+        <div class="reel-col reel-col--up">
+          <div class="reel-track" id="track-up"></div>
+        </div>
+        <div class="reel-col reel-col--down">
+          <div class="reel-track" id="track-down"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section stealth" id="creative">
+      <div class="stealth__grid">
+        <div class="stealth__text">
+          <p class="eyebrow">Hybrid Creative</p>
+          <h2 class="section__title">
+            Every angle.<br />
+            <span class="marker">Every format.</span>
+          </h2>
+
+          <div class="stealth__copy">
+            <p class="stealth__lead">
+              We build ads in AI-generated formats that are working right now â
+              Pixar-style 3D, claymation, animated explainers, stealth podcast
+              clips â produced in days, not weeks.
+            </p>
+            <p>
+              And when a product needs a real face, we cast from our creator
+              roster â real people, genuine UGC with the range of voices your
+              audience actually trusts.
+            </p>
+            <p>
+              Two engines, one team. Which means you test more angles, find
+              winners faster, and <span class="hl">never run out of creative</span>.
+            </p>
+          </div>
+        </div>
+
+        <div class="stealth__visual" aria-hidden="true">
+          <div class="stealth-stage">
+            <span class="stealth-stage__ghost stealth-stage__ghost--wide"></span>
+            <span class="stealth-stage__ghost stealth-stage__ghost--card"></span>
+
+            <figure class="video-ph">
+              <span class="video-ph__play">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M8 5.5v13l11-6.5-11-6.5Z" fill="currentColor" />
+                </svg>
+              </span>
+              <figcaption class="video-ph__label">
+                Espacio para mostrar el proceso creativo de DUNKADS
+              </figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section reels-section" id="reels">
+      <div class="reels-stage">
+        <div class="reels-grid" id="reels-grid"></div>
+        <div class="reels-stage__fade"></div>
+        <div class="reels-stage__cta">
+          <a href="#" class="btn btn--primary btn--lg">
+            <span class="btn__label">Watch all videos</span>
+            <svg class="btn__arrow" width="18" height="18" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+              <path d="M3 7h8M7.5 3.5 11 7l-3.5 3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <div class="grain-band">
+      <div class="grain-band__bg" id="band-bg" aria-hidden="true"></div>
+
+      <section class="cti" id="testing">
+      <div class="cti__inner">
+        <div class="cti__text">
+          <p class="eyebrow">Testing &amp; Iteration</p>
+          <h2 class="section__title">
+            Creative Testing<br />
+            and Iteration
+          </h2>
+          <p class="cti__lead">
+            Winners come from volume, not luck. We ship 15â20 variations a month
+            with a 5â7 day turnaround, read the data behind every one, and feed
+            what works back into the next batch.
+          </p>
+        </div>
+
+        <div class="cti__visual" aria-hidden="true">
+          <div class="chart-card">
+            <div class="chart-card__head">
+              <span class="chart-card__label">Total sales</span>
+              <div class="chart-card__value">
+                <span class="chart-card__amount">$246,987.54</span>
+                <span class="chart-card__delta">â² 12%</span>
+              </div>
+            </div>
+
+            <svg class="chart-card__plot" viewBox="0 0 620 288" preserveAspectRatio="none" role="img">
+              <g class="chart-grid">
+                <line x1="46" y1="16" x2="610" y2="16" />
+                <line x1="46" y1="94" x2="610" y2="94" />
+                <line x1="46" y1="172" x2="610" y2="172" />
+                <line x1="46" y1="250" x2="610" y2="250" />
+              </g>
+              <g class="chart-ylabel">
+                <text x="38" y="20">$15K</text>
+                <text x="38" y="98">$10K</text>
+                <text x="38" y="176">$5K</text>
+                <text x="38" y="254">$0</text>
+              </g>
+              <polyline class="chart-line chart-line--compare"
+                points="46,150 89,176 132,120 175,64 218,150 261,168 304,110 347,150 390,176 433,120 476,150 519,90 562,60 605,96" />
+              <polyline class="chart-line chart-line--main"
+                points="46,66 89,72 132,182 175,168 218,96 261,120 304,150 347,104 390,140 433,168 476,74 519,150 562,88 605,110" />
+              <g class="chart-xlabel">
+                <text x="46" y="276">Aug 1</text>
+                <text x="159" y="276">Aug 6</text>
+                <text x="272" y="276">Aug 11</text>
+                <text x="385" y="276">Aug 16</text>
+                <text x="498" y="276">Aug 21</text>
+                <text x="590" y="276">Aug 26</text>
+              </g>
+            </svg>
+
+            <div class="chart-card__legend">
+              <span class="chart-legend">
+                <span class="chart-legend__swatch chart-legend__swatch--main"></span>
+                Sep 1 â Sep 30, 2024
+              </span>
+              <span class="chart-legend">
+                <span class="chart-legend__swatch chart-legend__swatch--compare"></span>
+                Aug 1 â Aug 31, 2024
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section method" id="method">
+      <div class="method__grid">
+        <div class="method__head">
+          <p class="eyebrow">The Method</p>
+          <h2 class="section__title">
+            The DUNKADS<br />
+            <span class="marker">Method</span>
+          </h2>
+          <p class="method__lead">
+            Six steps, from first research to scaled winner. It's how we turn
+            your market, your buyer, and your data into creative you can dunk
+            on your competition with.
+          </p>
+          <a href="#book" class="btn btn--primary method__cta">
+            <span class="btn__label">Dunk a call</span>
+            <svg class="btn__arrow" width="16" height="16" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+              <path d="M3 7h8M7.5 3.5 11 7l-3.5 3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+        </div>
+
+        <ol class="timeline" id="timeline">
+          <div class="timeline__track" aria-hidden="true"></div>
+          <div class="timeline__progress" id="timeline-progress" aria-hidden="true"></div>
+
+          <li class="tl-step">
+            <span class="tl-step__node">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="7" /><line x1="21" y1="21" x2="16.65" y2="16.65" />
+              </svg>
+            </span>
+            <div class="tl-step__body">
+              <h3 class="tl-step__title">In-Depth Research</h3>
+              <p class="tl-step__desc">
+                We dissect your customer base and market space, building the
+                archetypes, personas, and avatars that every angle we write is
+                aimed at. If your brand already has learnings â winning hooks,
+                top performers, audience data â we fold that in from day one so
+                nothing starts from scratch.
+              </p>
+            </div>
+          </li>
+
+          <li class="tl-step">
+            <span class="tl-step__node">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="9" /><circle cx="12" cy="12" r="4.5" /><circle cx="12" cy="12" r="1" fill="currentColor" stroke="none" />
+              </svg>
+            </span>
+            <div class="tl-step__body">
+              <h3 class="tl-step__title">Creative Strategy</h3>
+              <p class="tl-step__desc">
+                We concept ads built to sell, not just to look good. Data and
+                buyer psychology decide the angle, the hook, and the reason
+                someone stops scrolling.
+              </p>
+            </div>
+          </li>
+
+          <li class="tl-step">
+            <span class="tl-step__node">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="6" width="13" height="12" rx="2" /><path d="M16 10l5-2.5v9L16 14" />
+              </svg>
+            </span>
+            <div class="tl-step__body">
+              <h3 class="tl-step__title">Hybrid Production</h3>
+              <p class="tl-step__desc">
+                Depending on what works best for your brand â full AI, real
+                creators, or a hybrid of both â every concept gets produced the
+                way it deserves. Same team, same standard, either way.
+              </p>
+            </div>
+          </li>
+
+          <li class="tl-step">
+            <span class="tl-step__node">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="4" y1="8" x2="20" y2="8" /><circle cx="9" cy="8" r="2.2" fill="var(--bg-base)" />
+                <line x1="4" y1="16" x2="20" y2="16" /><circle cx="15" cy="16" r="2.2" fill="var(--bg-base)" />
+              </svg>
+            </span>
+            <div class="tl-step__body">
+              <h3 class="tl-step__title">Direct Response Editing</h3>
+              <p class="tl-step__desc">
+                What lands with a 45-year-old buyer won't land with Gen Z. Every
+                cut is tuned to the persona it's aimed at â pacing, overlays,
+                hooks â so the edit converts, not just entertains.
+              </p>
+            </div>
+          </li>
+
+          <li class="tl-step">
+            <span class="tl-step__node">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="6" y1="20" x2="6" y2="12" /><line x1="12" y1="20" x2="12" y2="5" /><line x1="18" y1="20" x2="18" y2="14" />
+              </svg>
+            </span>
+            <div class="tl-step__body">
+              <h3 class="tl-step__title">Analysis &amp; Iteration</h3>
+              <p class="tl-step__desc">
+                Every ad is judged against your benchmarks, not vanity metrics.
+                What worked feeds the next brief, what didn't gets cut, and the
+                next batch ships within days.
+              </p>
+            </div>
+          </li>
+
+          <li class="tl-step">
+            <span class="tl-step__node">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="3 17 9 11 13 15 21 7" /><polyline points="15 7 21 7 21 13" />
+              </svg>
+            </span>
+            <div class="tl-step__body">
+              <h3 class="tl-step__title">Scale</h3>
+              <p class="tl-step__desc">
+                We find the winners and put weight behind them â and if you want
+                us running the spend, our media buying team scales what's working
+                while you focus on the business.
+              </p>
+            </div>
+          </li>
+        </ol>
+      </div>
+
+      <p class="dunk-line" id="dunk-line" aria-label="Ready to dunk on your competition?"></p>
+    </section>
+    </div>
+
+    <section class="section testimonials" id="testimonials">
+      <div class="testimonials__head">
+        <p class="eyebrow eyebrow--center">Testimonials</p>
+        <h2 class="section__title">What do they say?</h2>
+        <p class="testimonials__sub">Hear from our satisfied partners.</p>
+      </div>
+
+      <div class="testimonials__grid">
+        <article class="tcard">
+          <div class="tcard__top">
+            <span class="tcard__brand">Fler</span>
+            <span class="tcard__cat">Beauty &amp; Personal Care</span>
+          </div>
+          <p class="tcard__quote">
+            âWorking with DUNKADS has been amazing. They deliver creatives that
+            actually work â simple process, fast delivery, and our sales have gone
+            up. Their ads make a difference and the cost is worth it. I'd
+            definitely recommend them.â
+          </p>
+          <div class="tcard__author">
+            <span class="tcard__avatar">ML</span>
+            <div class="tcard__meta">
+              <span class="tcard__name">Matteo Landi</span>
+              <span class="tcard__role">Media Buyer, Fler</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="tcard">
+          <div class="tcard__top">
+            <span class="tcard__brand">BÃ u</span>
+            <span class="tcard__cat">Pet</span>
+          </div>
+          <p class="tcard__quote">
+            âWe worked with the DUNKADS team for our campaigns and we'd highly
+            recommend it. They got everything right, from creative strategy to
+            finding the perfect talent and angles. They understood our brand
+            messaging and helped us scale our revenue 10x in just 3 months â
+            definitely the best creative agency out there.â
+          </p>
+          <div class="tcard__author">
+            <span class="tcard__avatar">AB</span>
+            <div class="tcard__meta">
+              <span class="tcard__name">Andrea Bianchi</span>
+              <span class="tcard__role">Founder &amp; CEO of BÃ u Cosmesi</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="tcard">
+          <div class="tcard__top">
+            <span class="tcard__brand">Valkental</span>
+            <span class="tcard__cat">Sporting Goods</span>
+          </div>
+          <p class="tcard__quote">
+            âDUNKADS has enabled me to dedicate more time to our product and site
+            optimization. For brand owners who struggle with media-buying and/or
+            creatives, partnering with them is a must. They've saved me so much
+            time while scaling my brand to another level.â
+          </p>
+          <div class="tcard__author">
+            <span class="tcard__avatar">AD</span>
+            <div class="tcard__meta">
+              <span class="tcard__name">Antonio Detering</span>
+              <span class="tcard__role">Founder of Valkental</span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section booking" id="book">
+      <div class="booking__grid">
+        <div class="booking__text">
+          <p class="eyebrow">Let's talk</p>
+          <h2 class="section__title">
+            Ready to dunk on<br />
+            your competition?
+          </h2>
+          <p class="booking__lead">
+            In a 15-minute call, we'll look at your current creative, spot the
+            gaps, and show you exactly how we'd attack your market. No pitch
+            deck, no fluff â just a clear plan you can use whether we work
+            together or not.
+          </p>
+          <a
+            href="https://calendly.com/lautaro-dunkads/discovery-call-dunk-ads"
+            target="_blank"
+            rel="noopener"
+            class="btn btn--primary booking__cta"
+          >
+            <span class="btn__label">Dunk a call</span>
+            <svg class="btn__arrow" width="16" height="16" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+              <path d="M3 7h8M7.5 3.5 11 7l-3.5 3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+        </div>
+
+        <div class="booking__visual">
+          <div class="calendly-embed">
+            <div
+              class="calendly-inline-widget"
+              data-url="https://calendly.com/lautaro-dunkads/discovery-call-dunk-ads?hide_gdpr_banner=1&hide_landing_page_details=1&background_color=0a0a0a&text_color=efeee9&primary_color=ff601f"
+              data-resize="true"
+            ></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section faqs" id="faqs">
+      <div class="faqs__head">
+        <p class="eyebrow eyebrow--center">FAQs</p>
+        <h2 class="section__title">Frequently asked questions</h2>
+        <p class="testimonials__sub">
+          Quick answers about our creative services and process.
+        </p>
+      </div>
+
+      <div class="faqs__list">
+        <div class="faq">
+          <button class="faq__q" aria-expanded="false">
+            <span class="faq__q-text">Why should we invest in ad creatives?</span>
+            <span class="faq__icon" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                <line x1="8" y1="2" x2="8" y2="14" /><line x1="2" y1="8" x2="14" y2="8" />
+              </svg>
+            </span>
+          </button>
+          <div class="faq__a-wrap">
+            <div class="faq__a">
+              <p>
+                Creative is the biggest lever in paid media today. Targeting is
+                largely automated, so the ad itself decides whether you scale
+                profitably or burn budget. Fresh, high-performing creatives keep
+                your CPA down and unlock new audiences.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq">
+          <button class="faq__q" aria-expanded="false">
+            <span class="faq__q-text">How does the production process accommodate brand revisions?</span>
+            <span class="faq__icon" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                <line x1="8" y1="2" x2="8" y2="14" /><line x1="2" y1="8" x2="14" y2="8" />
+              </svg>
+            </span>
+          </button>
+          <div class="faq__a-wrap">
+            <div class="faq__a">
+              <p>
+                Revisions are built into every stage â script, edit, and final
+                cut. You review and approve at each milestone, and we iterate fast
+                so nothing ships without your sign-off.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq">
+          <button class="faq__q" aria-expanded="false">
+            <span class="faq__q-text">What metrics do you use to assess the performance of the creatives?</span>
+            <span class="faq__icon" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                <line x1="8" y1="2" x2="8" y2="14" /><line x1="2" y1="8" x2="14" y2="8" />
+              </svg>
+            </span>
+          </button>
+          <div class="faq__a-wrap">
+            <div class="faq__a">
+              <p>
+                We track the metrics that matter for scale: CPA, ROAS, hook rate,
+                hold rate, thumb-stop ratio, and cost per acquisition by angle.
+                Each creative is judged against custom benchmarks, not vanity
+                numbers.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq">
+          <button class="faq__q" aria-expanded="false">
+            <span class="faq__q-text">Is it possible to submit our own scripts or concepts for the ads?</span>
+            <span class="faq__icon" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                <line x1="8" y1="2" x2="8" y2="14" /><line x1="2" y1="8" x2="14" y2="8" />
+              </svg>
+            </span>
+          </button>
+          <div class="faq__a-wrap">
+            <div class="faq__a">
+              <p>
+                Absolutely. If you already have scripts, hooks, or concepts, we'll
+                refine and produce them alongside our own research-backed angles â
+                whatever gives us the best shot at a winner.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq">
+          <button class="faq__q" aria-expanded="false">
+            <span class="faq__q-text">Can we integrate influencer partnerships into our marketing strategy?</span>
+            <span class="faq__icon" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                <line x1="8" y1="2" x2="8" y2="14" /><line x1="2" y1="8" x2="14" y2="8" />
+              </svg>
+            </span>
+          </button>
+          <div class="faq__a-wrap">
+            <div class="faq__a">
+              <p>
+                Yes. We source and direct the right talent for your market and can
+                fold influencer and creator partnerships straight into your
+                paid-social creative pipeline.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq">
+          <button class="faq__q" aria-expanded="false">
+            <span class="faq__q-text">What types of ad formats do you produce?</span>
+            <span class="faq__icon" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                <line x1="8" y1="2" x2="8" y2="14" /><line x1="2" y1="8" x2="14" y2="8" />
+              </svg>
+            </span>
+          </button>
+          <div class="faq__a-wrap">
+            <div class="faq__a">
+              <p>
+                AI-generated 3D (Pixar-style), claymation, animated explainers,
+                podcast-style clips, and traditional UGC with real on-camera
+                creators. Every format is produced in-house.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq">
+          <button class="faq__q" aria-expanded="false">
+            <span class="faq__q-text">How many ad variations do you deliver per month?</span>
+            <span class="faq__icon" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                <line x1="8" y1="2" x2="8" y2="14" /><line x1="2" y1="8" x2="14" y2="8" />
+              </svg>
+            </span>
+          </button>
+          <div class="faq__a-wrap">
+            <div class="faq__a">
+              <p>
+                Depending on your plan, between 5 and 20+ variations per month,
+                with a 5â7 day turnaround on each batch. Our AI pipeline means
+                adding variations doesn't multiply cost the way traditional
+                production does.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq">
+          <button class="faq__q" aria-expanded="false">
+            <span class="faq__q-text">What does it cost to work with Dunk Ads?</span>
+            <span class="faq__icon" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                <line x1="8" y1="2" x2="8" y2="14" /><line x1="2" y1="8" x2="14" y2="8" />
+              </svg>
+            </span>
+          </button>
+          <div class="faq__a-wrap">
+            <div class="faq__a">
+              <p>
+                Our plans range from $1,500 to $8,000/month depending on volume,
+                format mix, and whether media buying is included. We also offer a
+                one-time Creative Audit for brands that want to test before
+                committing.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq">
+          <button class="faq__q" aria-expanded="false">
+            <span class="faq__q-text">Do you only work with US brands?</span>
+            <span class="faq__icon" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                <line x1="8" y1="2" x2="8" y2="14" /><line x1="2" y1="8" x2="14" y2="8" />
+              </svg>
+            </span>
+          </button>
+          <div class="faq__a-wrap">
+            <div class="faq__a">
+              <p>
+                We work with brands selling in the US, Europe, and Latin America.
+                Our team is fluent in English and Spanish, and our research team
+                is always on top of the formats that are actually working in your
+                market â so what we produce fits where your audience lives, not
+                just where we sit.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq">
+          <button class="faq__q" aria-expanded="false">
+            <span class="faq__q-text">What makes Dunk Ads different from a traditional UGC agency?</span>
+            <span class="faq__icon" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                <line x1="8" y1="2" x2="8" y2="14" /><line x1="2" y1="8" x2="14" y2="8" />
+              </svg>
+            </span>
+          </button>
+          <div class="faq__a-wrap">
+            <div class="faq__a">
+              <p>
+                Most UGC agencies are middlemen â they connect you with creators
+                and deliver raw footage. We concept, produce, edit, and can run
+                your ads, end to end. And because half our pipeline is AI-powered,
+                we deliver more creative at a lower cost without sacrificing
+                quality.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer" id="footer">
+    <div class="footer__glow" aria-hidden="true"></div>
+
+    <div class="footer__inner">
+      <div class="footer__cta">
+        <h2 class="footer__cta-title">Want to work together?</h2>
+      </div>
+
+      <div class="footer__top">
+        <div class="footer__brand">
+          <img class="footer__logo" src="/dunkads-logo.svg" alt="Dunk Ads â AI UGC and ad creative agency" />
+          <p class="footer__meta">
+            <span class="footer__globe" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <circle cx="12" cy="12" r="9" /><path d="M3 12h18M12 3c2.5 2.5 3.8 5.7 3.8 9s-1.3 6.5-3.8 9c-2.5-2.5-3.8-5.7-3.8-9s1.3-6.5 3.8-9Z" />
+              </svg>
+            </span>
+            Working with brands in the US, Europe, and Latin America
+          </p>
+        </div>
+
+        <nav class="footer__nav" aria-label="Footer">
+          <ul class="footer__col">
+            <li><a href="#">Home</a></li>
+            <li><a href="#creative">Ad Creatives</a></li>
+            <li><a href="#testing">Paid Advertising</a></li>
+          </ul>
+          <ul class="footer__col">
+            <li><a href="#" class="footer__ext">Instagram <span aria-hidden="true">â</span></a></li>
+            <li><a href="#" class="footer__ext">TikTok <span aria-hidden="true">â</span></a></li>
+            <li><a href="#" class="footer__ext">LinkedIn <span aria-hidden="true">â</span></a></li>
+            <li><a href="#" class="footer__ext">Email <span aria-hidden="true">â</span></a></li>
+          </ul>
+        </nav>
+      </div>
+
+      <div class="footer__bottom">
+        <span>Â© 2026 DUNKADS. All rights reserved.</span>
+        <div class="footer__legal">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+          <a href="#">Cookie Policy</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <style>
+    .mobile-video-overlay { display: none; }
+    @media (max-width: 960px) {
+      .mobile-video-overlay { display: block; cursor: pointer; }
+    }
+    /* Logo animado (Lottie): el canvas original es 1920x1080, el viewBox se
+       recorta al Ã¡rea real del logo (280 400 1181 280) desde JS. */
+    .nav__logo-anim { display: none; height: 30px; width: 127px; }
+    /* overflow visible: en la intro la pelotita vuela por encima del Ã¡rea del
+       logo; sin esto el recorte del viewBox se la come a mitad de vuelo. */
+    .nav__logo-anim svg { display: block; overflow: visible; }
+  </style>
+  <script src="assets/lottie.min.js" defer></script>
+  <script>
+    // defer + DOMContentLoaded: el player de Lottie no bloquea el parseo
+    // inicial; los scripts deferidos corren antes de que dispare este evento.
+    document.addEventListener('DOMContentLoaded', function () {
+      var box = document.getElementById('logo-anim');
+      var img = document.getElementById('logo-fallback');
+      if (!box || !window.lottie) return;
+      var inst = lottie.loadAnimation({
+        container: box,
+        renderer: 'svg',
+        loop: false,
+        autoplay: false,
+        path: 'assets/logo-animation.json',
+        rendererSettings: {
+          viewBoxSize: '280 400 1181 280',
+          preserveAspectRatio: 'xMidYMid meet'
+        }
+      });
+      inst.addEventListener('DOMLoaded', function () {
+        var start = function () {
+          box.style.display = 'inline-block';
+          img.style.display = 'none';
+          // La animaciÃ³n termina escondiendo el texto (estÃ¡ pensada para loop),
+          // asÃ­ que frenamos en el frame 130 con el logo completo visible.
+          inst.playSegments([0, 130], true);
+        };
+        // Con el loader de entrada tapando la pÃ¡gina, la intro del logo se
+        // perdÃ­a detrÃ¡s. Esperamos a que el loader se desvanezca para
+        // reproducirla; sin loader (o si ya cerrÃ³), arranca al toque.
+        if (window.__loaderDone || !document.getElementById('loader')) start();
+        else window.addEventListener('dunk:loader-done', start, { once: true });
+      });
+      // Replay al pasar el mouse por el logo.
+      box.closest('.nav__logo').addEventListener('mouseenter', function () {
+        inst.playSegments([0, 130], true);
+      });
+    });
+  </script>
+  <script>
+    // ===== Ruleta del hero (SOLO mÃ³vil <=960px) =====
+    // En mÃ³vil manejamos el scroll del reel con JS (requestAnimationFrame) para
+    // poder combinar: giro automÃ¡tico + arrastre con el dedo (inercia) + tap para
+    // ver un video. En desktop el motor queda dormido y NO toca nada (lo maneja el CSS).
+    (function () {
+      const BP = 960;
+      const isMobile = () => window.innerWidth <= BP;
+      const reelEl = () => document.querySelector('.hero__reel');
+      const trackEl = () => document.getElementById('track-up');
+
+      const AUTO_SPEED = 45;   // px/s del giro automÃ¡tico (hacia la izquierda)
+      const FRICTION = 2.6;    // amortiguaciÃ³n de la inercia tras un flick
+      const VEL_CAP = 2600;    // tope de velocidad del flick
+      const TAP_SLOP = 8;      // px: si te movÃ©s menos que esto, es un tap
+
+      const state = {
+        x: 0, half: 0, velocity: 0,
+        mode: 'auto',      // 'auto' | 'drag' | 'watch'
+        active: false, lastT: 0, watched: null,
+      };
+
+      // ---- helpers de video (protocolo player.js de Bunny) ----
+      const post = (f, method) => { if (f && f.contentWindow) f.contentWindow.postMessage(JSON.stringify({ context: 'player.js', version: '0.0.11', method }), '*'); };
+
+      // ---- posiciÃ³n del track ----
+      const measure = () => { const t = trackEl(); if (t) state.half = t.scrollWidth / 2; };
+      const apply = () => { const t = trackEl(); if (t) t.style.transform = `translateX(${state.x}px)`; };
+      // El contenido estÃ¡ duplicado, asÃ­ que envolver por "half" es visualmente idÃ©ntico (loop sin salto).
+      const normalize = () => { const h = state.half; if (h <= 0) return; while (state.x <= -h) state.x += h; while (state.x > 0) state.x -= h; };
+
+      // ---- ver / soltar un video ----
+      function centerCard(card) {
+        const t = trackEl(); if (!t) return;
+        const r = card.getBoundingClientRect();
+        const delta = (window.innerWidth / 2) - (r.left + r.width / 2);
+        // Normalizar sin transiciÃ³n (salto invisible), luego animar sÃ³lo el pequeÃ±o delta de centrado.
+        t.style.transition = 'none';
+        normalize(); apply();
+        void t.offsetWidth;
+        state.x += delta;
+        t.style.transition = 'transform 0.45s cubic-bezier(0.22, 1, 0.36, 1)';
+        apply();
+        setTimeout(() => { if (t && state.mode === 'watch') t.style.transition = ''; }, 480);
+      }
+
+      function watchCard(card) {
+        const frame = card.querySelector('.reel-card__frame');
+        const iframe = frame && frame.querySelector('iframe');
+        // Los iframes cargan en cola (data-src): si tocan uno que todavÃ­a no
+        // cargÃ³, lo priorizamos acÃ¡ mismo y arranca solo cuando estÃ© listo.
+        if (iframe && !iframe.src && iframe.dataset.src) {
+          iframe.src = iframe.dataset.src;
+          iframe.addEventListener('load', () => post(iframe, 'play'), { once: true });
+        }
+        state.mode = 'watch';
+        state.velocity = 0;
+        state.watched = card;
+        centerCard(card);
+        // El overlay (transparente) queda SIEMPRE encima: si lo ocultamos, el iframe
+        // cross-origin se traga los eventos de puntero y perderÃ­amos el arrastre/tap.
+        document.querySelectorAll('.hero__reel iframe').forEach(f => post(f, f === iframe ? 'play' : 'pause'));
+      }
+
+      // "Dejar de mirar": pausa el video y el reel vuelve a girar.
+      function releaseWatch() {
+        if (state.watched) {
+          const frame = state.watched.querySelector('.reel-card__frame');
+          post(frame && frame.querySelector('iframe'), 'pause');
+        }
+        state.watched = null;
+        if (state.mode === 'watch') { state.mode = 'auto'; state.lastT = 0; }
+      }
+
+      // ---- overlays (tap para ver) ----
+      function attachOverlay(node) {
+        if (!(node && node.nodeType === 1 && node.classList && node.classList.contains('reel-card'))) return;
+        const frame = node.querySelector('.reel-card__frame');
+        if (!frame || frame.querySelector('.mobile-video-overlay')) return;
+        const overlay = document.createElement('div');
+        overlay.className = 'mobile-video-overlay';
+        overlay.style.position = 'absolute';
+        overlay.style.inset = '0';
+        overlay.style.zIndex = '10';
+        overlay.addEventListener('click', () => {
+          if (!isMobile()) return;
+          if (drag.moved) { drag.moved = false; return; } // fue un arrastre, no un tap
+          if (state.watched === node) { releaseWatch(); return; } // tap de nuevo => sigue girando
+          watchCard(node);
+        });
+        frame.appendChild(overlay);
+      }
+
+      // ---- motor (rAF) ----
+      function frame(now) {
+        if (!state.lastT) state.lastT = now;
+        let dt = (now - state.lastT) / 1000; state.lastT = now;
+        if (dt > 0.05) dt = 0.05; // clamp tras cambiar de pestaÃ±a
+        if (state.active && state.mode === 'auto') {
+          if (Math.abs(state.velocity) > 2) {
+            state.x += state.velocity * dt;         // inercia del flick
+            state.velocity *= Math.exp(-FRICTION * dt);
+          } else {
+            state.velocity = 0;
+            state.x -= AUTO_SPEED * dt;              // giro automÃ¡tico
+          }
+          normalize(); apply();
+        }
+        requestAnimationFrame(frame);
+      }
+
+      function activate() {
+        if (state.active) return;
+        const t = trackEl(); if (!t) return;
+        state.active = true;
+        t.style.animation = 'none';   // tomamos el control (el CSS mueve con @keyframes)
+        t.style.touchAction = 'pan-y'; // arrastre horizontal es nuestro; vertical = scroll de la pÃ¡gina
+        t.style.userSelect = 'none';
+        state.x = 0; state.velocity = 0; state.mode = 'auto'; state.lastT = 0;
+        measure(); normalize(); apply();
+      }
+
+      function deactivate() {
+        if (!state.active) return;
+        state.active = false;
+        releaseWatch();
+        const t = trackEl(); if (!t) return;
+        t.style.animation = ''; t.style.transform = ''; t.style.transition = '';
+        t.style.touchAction = ''; t.style.userSelect = '';
+      }
+
+      // ---- arrastre (pointer = touch + mouse) ----
+      const drag = { on: false, moved: false, startX: 0, lastX: 0, lastT: 0 };
+      function onDown(e) {
+        if (!isMobile() || !state.active) return;
+        drag.on = true; drag.moved = false;
+        drag.startX = drag.lastX = e.clientX; drag.lastT = performance.now();
+        state.velocity = 0;
+        const t = trackEl(); if (t) t.style.transition = '';
+      }
+      function onMove(e) {
+        if (!drag.on) return;
+        const dx = e.clientX - drag.lastX;
+        if (Math.abs(e.clientX - drag.startX) > TAP_SLOP) {
+          if (!drag.moved && state.mode === 'watch') releaseWatch(); // empezar a arrastrar = dejar de mirar
+          drag.moved = true;
+          state.mode = 'drag';
+        }
+        if (state.mode === 'drag') {
+          state.x += dx;
+          const now = performance.now();
+          const dt = (now - drag.lastT) / 1000;
+          if (dt > 0) state.velocity = dx / dt; // px/s para la inercia
+          drag.lastT = now;
+          normalize(); apply();
+        }
+        drag.lastX = e.clientX;
+      }
+      function onUp() {
+        if (!drag.on) return;
+        drag.on = false;
+        if (state.mode === 'drag') {
+          state.velocity = Math.max(-VEL_CAP, Math.min(VEL_CAP, state.velocity));
+          state.mode = 'auto'; state.lastT = 0; // la inercia se aplica en el rAF
+        }
+      }
+
+      // ---- init ----
+      function boot() {
+        const reel = reelEl(); if (!reel) return;
+        // Overlays en las tarjetas que ya existen + observar futuras (red de seguridad).
+        reel.querySelectorAll('.reel-card').forEach(attachOverlay);
+        new MutationObserver(ms => ms.forEach(m => m.addedNodes.forEach(attachOverlay))).observe(reel, { childList: true, subtree: true });
+
+        reel.addEventListener('pointerdown', onDown);
+        window.addEventListener('pointermove', onMove, { passive: true });
+        window.addEventListener('pointerup', onUp);
+        window.addEventListener('pointercancel', onUp);
+
+        if (isMobile()) activate();
+        requestAnimationFrame(frame);
+
+        let rt;
+        window.addEventListener('resize', () => {
+          clearTimeout(rt);
+          rt = setTimeout(() => { if (isMobile()) { state.active ? measure() : activate(); } else deactivate(); }, 200);
+        });
+      }
+
+      if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
+      else boot();
+    })();
+  </script>
+
+  <script>
+    // ===== Chiste del hero: flecha + mÃ¡quina de escribir =====
+    // Aparece con retraso a propÃ³sito: primero la persona entra, mira el
+    // tÃ­tulo y los videos del reel, y reciÃ©n ahÃ­ el movimiento del texto le
+    // engancha la mirada de vuelta al CTA.
+    (function () {
+      var DELAY = 6000;      // ms de espera desde que se ve la web
+      var DRAW = 600;        // ms que tarda la flecha en dibujarse
+      var TEXT = '(we tried to be cool here)';
+
+      var box = document.getElementById('hero-joke');
+      var out = document.getElementById('hero-joke-text');
+      if (!box || !out) return;
+
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      // Tipeo carÃ¡cter por carÃ¡cter, con el mismo estilo de char + cursor que
+      // usa la frase "READY TO DUNK..." del final (clases dunk-char/dunk-caret).
+      function type() {
+        var caret = document.createElement('span');
+        caret.className = 'dunk-caret';
+        out.appendChild(caret);
+        var i = 0;
+        (function step() {
+          if (i >= TEXT.length) {
+            // Al terminar, el cursor se va (si no, parpadea para siempre).
+            setTimeout(function () { caret.remove(); }, 900);
+            return;
+          }
+          var ch = document.createElement('span');
+          ch.className = 'dunk-char';
+          ch.textContent = TEXT[i];
+          out.insertBefore(ch, caret);
+          i += 1;
+          setTimeout(step, TEXT[i - 1] === ' ' ? 20 : 30 + Math.random() * 25);
+        })();
+      }
+
+      function play() {
+        box.classList.add('is-on');
+        if (reduce) { out.textContent = TEXT; return; }
+        setTimeout(type, DRAW); // primero la flecha, despuÃ©s el texto
+      }
+
+      // SÃ³lo cuando el hero estÃ¡ a la vista: si la persona ya scrolleÃ³ lejos,
+      // esperamos a que vuelva en vez de gastar el chiste sin pÃºblico.
+      function playWhenVisible() {
+        var hero = document.getElementById('hero');
+        if (!hero || !('IntersectionObserver' in window)) { play(); return; }
+        var io = new IntersectionObserver(function (es) {
+          if (es.some(function (e) { return e.isIntersecting; })) { io.disconnect(); play(); }
+        }, { threshold: .25 });
+        io.observe(hero);
+      }
+
+      // El reloj arranca cuando la web se ve de verdad, no cuando carga:
+      // durante el loader la pÃ¡gina estÃ¡ tapada.
+      function start() { setTimeout(playWhenVisible, DELAY); }
+      if (window.__loaderDone || !document.getElementById('loader')) start();
+      else window.addEventListener('dunk:loader-done', start, { once: true });
+    })();
+  </script>
+
+  <script src="https://assets.calendly.com/assets/external/widget.js" async></script>
+</body>
+</html>
+
